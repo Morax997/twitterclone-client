@@ -4,8 +4,12 @@ import './App.css';
 import axios from "axios";
 import {useState, useEffect} from "react";
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
+
+
 
 const App = () => {
+  const navigate = useNavigate();
   const [tweetsList, setTweetsList] = useState([]);
   const [newTweetInput, setNewTweetInput] = useState("");
   const handleTweetSubmit = () => {
@@ -15,6 +19,11 @@ const App = () => {
       })
   }
 
+  const handleReplyClick = event => {
+    event.stopPropagation();
+    
+  }
+    
   useEffect(() => {
    axios.get("http://localhost:1337/tweets")
      .then((response) => {
@@ -44,12 +53,12 @@ const App = () => {
         </Card>
 
         {
-          tweetsList.map(tweetData => {
-            return <Card>
+          tweetsList.map((tweetData, index) => {
+            return <Card key={index} onClick={() => {navigate("/tweet/" + tweetData._id)}}>
               <Card.Body>
                 <Card.Title>{tweetData._id}</Card.Title>
                 <Card.Text>{tweetData.textContent}</Card.Text>
-                <Button variant="primary">Reply</Button>
+                <Button onClick={handleReplyClick} variant="primary">Reply</Button>
               </Card.Body>
             </Card>
           })

@@ -6,6 +6,12 @@
 .card {
     border-radius: 0 !important;
     border-top: 0 !important;
+    cursor: pointer;
+    transition: 100ms;
+}
+
+.card:hover {
+    background-color: darkgray;
 }
 
 .tweetButton {
